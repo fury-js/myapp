@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { Navigation } from "./components/navigation/navigation";
 import { Navbar } from "./components/navbar/navbar";
+import { Register } from "./components/register/register";
 import {SearchBox } from './components/searchbox/searcbox.component'
 import {SignIn } from './components/signin/Signin'
 import { CardList } from './components/cardlist/cardlistcomponent';
@@ -38,6 +39,7 @@ class App extends Component {
         ? <div>
             <div>
               <SearchBox />
+              <Register />
             </div><p></p>
               <CardList users = {this.state.users}/>
            </div>
