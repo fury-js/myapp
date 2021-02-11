@@ -1,5 +1,8 @@
 import React from 'react'
-// import FontAwesome from '@fortawesome/react-fontawesome'
+// import 'font-awesome/css/font-awesome.min.css'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { faCheck, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+// var FontAwesome = require('@fortawesome/react-fontawesome')
 
 
 export class Dropdown extends React.Component {
@@ -28,27 +31,29 @@ export class Dropdown extends React.Component {
         const { isListOpen, headerTitle } = this.state
         const {countries} = this.props
         return (
-            <div className="dd-wrapper">
-                <button 
+            <div className="ma3 dropdown">
+                <div 
                     type="button"
-                    className="dd-header"
+                    className=""
                     onClick={this.toggleList}>
-                        <div className="dd-header-title">{headerTitle}</div>
+                        <button className=" btn btn-secondary dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">{headerTitle}</button>
                         {isListOpen
-                        ? <div name="angle-up" size="50x"/>
-                        :<div name="angle-down" size="2x"/>}
-                    </button>
+                        ? <FontAwesomeIcon icon={""} className="angle-up" size="50x"/>
+                        :<FontAwesomeIcon icon={""} className="angle-down" size="2x"/>}
+                    </div>
                     {isListOpen && (
-                        <div className="dd-list" role="list">
+                        <ul className="form-control " role="list">
                             {countries.map((item) => (
-                                <button 
+                                <li className=""
                                     type="button"
-                                    className="dd-list-item"
                                     key={item.id}
                                     onClick={() => this.selectItem(item)}>
-                                </button>
+                                        {item.name}
+                                        {' '}
+                                        {item.selected }
+                                </li>
                             ))}
-                        </div>
+                        </ul>
                     )}
             </div>
         )

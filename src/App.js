@@ -1,5 +1,7 @@
 
 import React, { Component } from "react";
+import Particles from 'react-particles-js';
+import { Button } from "./components/button/button.component"
 import { Navigation } from "./components/navigation/navigation";
 import { Navbar } from "./components/navbar/navbar";
 import { Register } from "./components/register/register";
@@ -9,12 +11,49 @@ import { CardList } from './components/cardlist/cardlistcomponent';
 import { HotelCardlist } from './components/hotel-card-list/hotel-card-list.component';
 import './App.css';
 
+
+
+const particlesOptions = {
+  particles: {
+    number: {
+        value: 400,
+        density: {
+            enable: true,
+            value_area: 1000
+        }
+    },
+    color: {
+        value: '#fff'
+    },
+    opacity: {
+        value: 0.5,
+        anim: {
+            enable: true
+        }
+    },
+    size: {
+        value: 7,
+        random: true,
+        anim: {
+            enable: true,
+            speed: 3
+        }
+    },
+    line_linked: {
+        enable: false
+    },
+    move: {
+        speed: 0.2
+    }
+ } 
+}
+
 class App extends Component {
   constructor() {
     super();
     this.state = {
       users: [],
-      route: 'home',
+      route: '',
       
     }
   }
@@ -33,8 +72,13 @@ class App extends Component {
   render()  {
     return (
       <div  className="App">
+         <Particles className='particles .particles-js'
+                params={particlesOptions} />
         <Navigation/>
-        <Navbar onRouteChange = {this.onRouteChange}/>
+        <div>
+          <Button/>
+        </div>
+        {/* <Navbar onRouteChange = {this.onRouteChange}/> */}
         { this.state.route === 'Search'
         ? <div>
             <div>
@@ -47,16 +91,20 @@ class App extends Component {
             this.state.route === 'findhotels'
             ?
             <div>
-              {/* <CardList users = {this.state.users}/> */}
-              <HotelCardlist/>
+              <CardList users = {this.state.users}/>
+              {/* <HotelCardlist/> */}
             </div>
-            :
-            <SignIn/>
-          )}
-
-        
-        {/* <CardList users = {this.state.users}/> */}
-
+            :(
+              this.state.route === 'home'
+              ?
+              <div>
+               <Button/>
+              </div>
+              :
+              <SignIn/>
+            ) 
+          )
+        }
       </div>
     )
   }
