@@ -8,10 +8,19 @@ import { faCheck, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 export class Dropdown extends React.Component {
     constructor(props) {
         super(props);
+        const { setUserCountry} = this.props
         this.state = {
             isListOpen: false,
-            headerTitle: this.props.title
+            headerTitle: this.props.title,
+            userCountry : '',
         }
+    }
+    componentDidUpdate () {
+        let { userCountry } = this.state.userCountry
+        let selectedCountry = document.getElementById('btn-country')
+        userCountry = selectedCountry.innerHTML
+        // console.log(this.state.userCountry)
+        
     }
     toggleList = () => {
         this.setState(prevState => ({
@@ -19,24 +28,29 @@ export class Dropdown extends React.Component {
         }))
     }
     selectItem = (item) => {
-        const { resetThenSet } =this.props;
-        const { name, id, } = item;
+        const { setUserCountry, userCountry } =this.props;
+        const { country_name, id, } = item;
+        
 
         this.setState({
-            headerTitle: name,
+            headerTitle: country_name,
             isListOpen: false,
-        }, () => resetThenSet(id,))
+            userCountry: country_name
+        })
     }
     render (){
         const { isListOpen, headerTitle } = this.state
-        const {countries} = this.props
+        const {countries, setUserCountry} = this.props
         return (
             <div className="ma3 dropdown">
                 <div 
                     type="button"
                     className=""
                     onClick={this.toggleList}>
-                        <button className=" btn btn-secondary dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">{headerTitle}</button>
+                        <button className=" btn btn-secondary dropdown-toggle"  
+                        data-bs-toggle="dropdown" 
+                        aria-expanded="false" id ='btn-country'
+                        >{headerTitle}</button>
                         {isListOpen
                         ? <FontAwesomeIcon icon={""} className="angle-up" size="50x"/>
                         :<FontAwesomeIcon icon={""} className="angle-down" size="2x"/>}
@@ -48,9 +62,7 @@ export class Dropdown extends React.Component {
                                     type="button"
                                     key={item.id}
                                     onClick={() => this.selectItem(item)}>
-                                        {item.name}
-                                        {' '}
-                                        {item.selected }
+                                        {item.country_name}
                                 </li>
                             ))}
                         </ul>

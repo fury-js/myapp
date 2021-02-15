@@ -54,7 +54,7 @@ export class SearchBox extends React.Component {
         console.log(temp)
 
         temp.forEach((item) => item.selected = false);
-        temp[id].selected = true
+        temp[id] = true
 
 
         this.setState({

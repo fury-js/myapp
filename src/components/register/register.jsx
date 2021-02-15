@@ -1,70 +1,83 @@
 import axios from "axios";
 import React from "react";
-import Select from 'react-select'
+import Dropdown from "../dropdown/dropdown.component";
 
 export class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            localesCode: {},
-            localesName: [],
-            name: '',
+            auth_token: '',
+            countries: [],
+            userCountry: '',
+            phoneCode: '',
             email: '',
-            password: '',
-            currencies: []
+            name: '',
+            userState: '',
+            userCity: ''
         }
     }
     componentDidMount (){
-        this.getLocales()
-        // const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
-        // const targetUrl = 'http://partners.api.skyscanner.net/apiservices/reference/v1.0/locales?apikey=prtl6749387986743898559646983194'
-        // fetch(proxyUrl + targetUrl ,{
-        //     headers : { 
-        //         'Content-Type': 'application/json',
-        //         'Accept': 'application/json'
-        //        }})
-        // .then(resp => resp.json())
-        // .then(data =>)
-    }
-    async getLocales () {
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/',
-        targetUrl = 'http://partners.api.skyscanner.net/apiservices/reference/v1.0/locales?apikey=prtl6749387986743898559646983194'
-        const res = await axios.get(proxyUrl + targetUrl)
-        const data = res.data
-        const newArray = Object.values(data)
-        const newlocale = newArray.map(item => ({
-            item
-            // "label": Object.values(item)
-        }))
-        let a
-        let b
-        newlocale.forEach((item) => {
-             a = item
-            // console.log(x)
+        fetch('https://www.universal-tutorial.com/api/getaccesstoken', {
+            method: 'get',
+            headers: {'Content-Type': 'application/json',
+                    'api-token': '_ZAIgydglIZcUCKZq7zDR3k7nx4CJuFGECalMABqGXW458FHIRHbI5jz4dl0eMNuuxs',
+                    'user-email': 'dennis.colussi2486@outlook.com'}
         })
+        .then(response => response.json())
+        .then(token => {
+            const auth_token = Object.values(token)
+            this.setState({auth_token: auth_token})
+            // console.log(this.state.auth_token)
+        })
+        // this.getLocales()
+        fetch('https://www.universal-tutorial.com/api/countries', {
+            method:'get',
+            headers: {'Authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJkZW5uaXMuY29sdXNzaTI0ODZAb3V0bG9vay5jb20iLCJhcGlfdG9rZW4iOiJfWkFJZ3lkZ2xJWmNVQ0tacTd6RFIzazdueDRDSnVGR0VDYWxNQUJxR1hXNDU4RkhJUkhiSTVqejRkbDBlTU51dXhzIn0sImV4cCI6MTYxMzM1MTc0OX0.WyxN1_0PwZlFxT7qsaLQOsXx2C3LQODuEd2RUG6mexY",
+            'Content-Type': 'application/json',}
+        })
+        .then(response => response.json())
+        .then(allcountries => this.setState({countries: allcountries}))
+    }
+    // async getLocales () {
+    //     const proxyUrl = 'https://cors-anywhere.herokuapp.com/',
+    //     targetUrl = 'http://partners.api.skyscanner.net/apiservices/reference/v1.0/locales?apikey=prtl6749387986743898559646983194'
+    //     const res = await axios.get(proxyUrl + targetUrl)
+    //     const data = res.data
+    //     const newArray = Object.values(data)
+    //     this.setState({countries: newArray})
+    //     console.log(this.state.countries[0])
+    // }
     
-        // console.log(a)
-        this.setState({localesCode: a})
-        console.log(this.state.localesCode)
-        // for (const property in this.state.localesCode) {
-        //     console.log(`${property}:${Object.values[this.state.localesCode]}`)
+    onNameChange = (e) => {
+        this.setState({name: e.target.value})
 
-        // }
-        // console.log(this.state.localesCode)
-        // newArray.forEach(function(item){
-        //     this.state = {
-        //         locale: item
-        //     }
-        // })
-        // console.log(this.state)
+    }
+    // onInputChange = (e) => {
+    //     this.setState({userCity: e.target.value})
+    //     // console.log(this.state.userCity)
 
-        
+    // }
+    setUserCountry = (item) => {
+        this.setState({userCountry: item})
+        console.log(this.state.userCountry)
 
-        // console.log(this.state.localesCode)
+    }
+    resetThenSet = ( id ) => {
+        const temp = this.state.Countries;
+        console.log(temp)
+
+        temp.forEach((item) => item.selected = false);
+        temp[id] = true
+
+
+        this.setState({
+            Countries: temp,
+        })
+
     }
 
-    render () {
-        return (
+    render () { 
+        return ( 
             <article className="br2 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 center shadow-5">
                 <main className="pa4 black-80">
                     <div className="measure" accept-charset="utf-8">
@@ -77,10 +90,15 @@ export class Register extends React.Component {
                                         type="text" 
                                         name="name"  
                                         id="name"
+                                        
                                     />
                                 </div>
                                 <div>
-                                    <Select options={this.state.localesCode}/>
+                                    <Dropdown title = 'Select your country' 
+                                        countries={this.state.countries}
+                                        setUserCountry={this.setUserCountry}
+                                        userCountry = {this.state.userCountry}
+                                    />
                                 </div>
                                 <label className="db fw4 lh-copy f6" htmlFor="email-address">Email address</label>
                                 <input className="pa2 input-reset ba bg-transparent w-100 measure" 

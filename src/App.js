@@ -74,37 +74,49 @@ class App extends Component {
       <div  className="App">
          <Particles className='particles .particles-js'
                 params={particlesOptions} />
-        <Navigation/>
-        <div>
-          <Button/>
-        </div>
-        {/* <Navbar onRouteChange = {this.onRouteChange}/> */}
-        { this.state.route === 'Search'
-        ? <div>
-            <div>
-              <SearchBox />
-              <Register />
-            </div><p></p>
-              <CardList users = {this.state.users}/>
-           </div>
-          :(
-            this.state.route === 'findhotels'
-            ?
-            <div>
-              <CardList users = {this.state.users}/>
-              {/* <HotelCardlist/> */}
+        <Navigation onRouteChange= {this.onRouteChange}/> 
+   
+        { this.state.route === 'signin'
+          ? <div>
+              <SignIn onRouteChange={this.onRouteChange}/>
             </div>
-            :(
-              this.state.route === 'home'
-              ?
+          :
+          (
+            this.state.route === 'register'
+            ?
               <div>
-               <Button/>
+                <Button onRouteChange={this.onRouteChange}/>)
               </div>
+            :( this.state.route ==='signuptodrive'
+              ?
+              <Register/>
               :
-              <SignIn/>
-            ) 
+
+              (this.state.route === 'signuptoride'
+              ?
+              <Register/>
+              :(
+                this.state.route === 'carhire'
+                  ?
+                  <div>
+                    <Navbar onRouteChange={this.onRouteChange}/>
+                    <SearchBox/>
+                  </div>
+                :
+                  (
+                  this.state.route === 'home'
+                  ?<div>
+                    <Navbar onRouteChange={this.onRouteChange}/>
+                    <CardList users={this.state.users}/>
+                  </div>
+                  :
+                  <SignIn onRouteChange={this.onRouteChange}/>
+                  )
+                )
+              )
+            )
           )
-        }
+        }   
       </div>
     )
   }

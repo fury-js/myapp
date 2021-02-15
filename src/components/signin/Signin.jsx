@@ -4,14 +4,8 @@ export class SignIn extends React.Component  {
     constructor(props) {
         super(props);
         this.state = {
-            id: '',
-            name: '',
             email: '',
             password: '',
-            entries: 0,
-            date: '',
-            // signInEmail: '',
-            // signInPassword: '',
         }
     }
     onEmailChange = (event) => {
@@ -20,24 +14,24 @@ export class SignIn extends React.Component  {
     onPasswordChange = (event) => {
         this.setState({password: event.target.value})
     }
-    onSubmitSignIn = () => {
-        fetch('https://shrouded-caverns-08771.herokuapp.com/signin', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                id: this.state.id,
-                email: this.state.email,
-                password: this.state.password
-            })
-        })        
-        .then(response => response.json())
-        .then(user => {
-            if(user.id) {
-                this.props.loadUser(user)
-                this.props.onRouteChange('home')
-            }
-        })
-    }
+    // onSubmitSignIn = () => {
+    //     fetch('https://shrouded-caverns-08771.herokuapp.com/signin', {
+    //         method: 'post',
+    //         headers: {'Content-Type': 'application/json'},
+    //         body: JSON.stringify({
+    //             id: this.state.id,
+    //             email: this.state.email,
+    //             password: this.state.password
+    //         })
+    //     })        
+    //     .then(response => response.json())
+    //     .then(user => {
+    //         if(user.id) {
+    //             this.props.loadUser(user)
+    //             this.props.onRouteChange('home')
+    //         }
+    //     })
+    // }
     render(){
         const {onRouteChange} = this.props;
         return (
@@ -67,10 +61,10 @@ export class SignIn extends React.Component  {
                         </fieldset>
                         <div className="">
                             <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
-                            type="submit" value="Sign in" onClick={this.onSubmitSignIn}/>
+                            type="submit" value="Sign in" onClick={()=> onRouteChange('home')}/>
                         </div>
                             <div className="lh-copy mt3">
-                            <a href="#0" className="f6 link dim black db" onClick={ ()=> onRouteChange('Register') }>Register</a>
+                            <a href="#0" className="f6 link dim black db" onClick={ ()=> onRouteChange('register') }>Register</a>
                         </div>
                     </div>
                 </main>
